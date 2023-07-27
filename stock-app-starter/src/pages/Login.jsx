@@ -6,13 +6,14 @@ import Typography from "@mui/material/Typography";
 import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useSelector } from "react-redux";
+import { Formik, validateYupSchema } from 'formik';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state?.auth);
-
+  const loginScheme = {}
   return (
     <Container maxWidth="lg">
       <Grid
@@ -49,6 +50,20 @@ const Login = () => {
           >
             Login
           </Typography>
+           
+             
+              <Formik
+                initialValues={{ email: "", password: "" }}
+                validationSchema={loginScheme}
+                onSubmit={(values, actions) => {
+                actions.resetForm()
+                actions.setSubmitting()
+          }}
+                >
+             
+              </Formik>
+            
+          
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/register">Do you have not an account?</Link>
