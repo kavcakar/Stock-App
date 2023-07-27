@@ -7,13 +7,21 @@ import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Formik, validateYupSchema } from 'formik';
+import { Formik, Form } from 'formik';
+import  TextField  from "@mui/material/TextField";
+import { object, string, number, date, InferType } from 'yup';
 
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state?.auth);
-  const loginScheme = {}
+  
+  const loginScheme = object({
+    
+    email: string().email() .required(),
+    
+  });
+  
   return (
     <Container maxWidth="lg">
       <Grid
@@ -59,8 +67,28 @@ const Login = () => {
                 actions.resetForm()
                 actions.setSubmitting()
           }}
-                >
-                </Formik>
+          >
+          {({values, handleChange, handleBlur, errors, touched}) => (
+            <Form>
+              <Box sx={{display:"flex", flexDirection: "column"}}>
+              <TextField 
+                label="email"
+                name="email"
+                id="email"
+                type="email"
+                variant="outlined"
+                value={values.email || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+                
+              />
+              </Box>
+            </Form>
+  )}
+          </Formik>
+                
              
               <Box sx={{ textAlign: "center", mt: 2 }}>
                 <Link to="/register">Do you have not an account?</Link>
