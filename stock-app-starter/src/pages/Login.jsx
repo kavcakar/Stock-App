@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from 'formik';
 import  TextField  from "@mui/material/TextField";
-import { object, string, number, date, InferType } from 'yup';
+import { object, string, number, InferType } from 'yup';
 
 
 const Login = () => {
@@ -19,6 +19,11 @@ const Login = () => {
   const loginScheme = object({
     
     email: string().email() .required(),
+    password: string().required().min("Password en az 8 karakter olmali")
+    .max("password en fazla 20 karakter olmali")
+    // .matches(/\d+/, "Password bir sayi icermelidir"),
+    // .matches(/[a-z]/, "Password bir kucuk harf icermelidir"),
+    .matches(/[A-Z]/, "Password bir buyuk harf icermelidir"),
     
   });
   
@@ -70,7 +75,7 @@ const Login = () => {
           >
           {({values, handleChange, handleBlur, errors, touched}) => (
             <Form>
-              <Box sx={{display:"flex", flexDirection: "column"}}>
+              <Box sx={{display:"flex", flexDirection: "column", gap: 2}}>
               <TextField 
                 label="email"
                 name="email"
@@ -82,6 +87,21 @@ const Login = () => {
                 onBlur={handleBlur}
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
+                
+              />
+              
+              
+              <TextField 
+                label="password"
+                name="password"
+                id="password"
+                type="password"
+                variant="outlined"
+                value={values?.password || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
                 
               />
               </Box>
