@@ -9,12 +9,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from 'formik';
 import  TextField  from "@mui/material/TextField";
-import { object, string, number, InferType } from 'yup';
+import { object, string } from 'yup';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 const Login = () => {
   const navigate = useNavigate();
-  const { currentUser, error } = useSelector((state) => state?.auth);
+  const { currentUser, error, loading } = useSelector((state) => state?.auth);
   
   const loginScheme = object({
     
@@ -104,6 +105,11 @@ const Login = () => {
                 helperText={touched.password && errors.password}
                 
               />
+
+              <LoadingButton 
+              type="submit" 
+              variant="contained" 
+              loading={loading}>Submit</LoadingButton>
               </Box>
             </Form>
   )}
