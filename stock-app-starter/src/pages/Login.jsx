@@ -11,6 +11,7 @@ import { Formik, Form } from 'formik';
 import  TextField  from "@mui/material/TextField";
 import { object, string } from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { login } from "../apiCall/authCall";
 
 
 const Login = () => {
@@ -20,8 +21,8 @@ const Login = () => {
   const loginScheme = object({
     
     email: string().email() .required(),
-    password: string().required().min("Password en az 8 karakter olmali")
-    .max("password en fazla 20 karakter olmali")
+    password: string().required()
+    // .max("password en fazla 20 karakter olmali")
     // .matches(/\d+/, "Password bir sayi icermelidir"),
     // .matches(/[a-z]/, "Password bir kucuk harf icermelidir"),
     .matches(/[A-Z]/, "Password bir buyuk harf icermelidir"),
@@ -70,6 +71,7 @@ const Login = () => {
                 initialValues={{ email: "", password: "" }}
                 validationSchema={loginScheme}
                 onSubmit={(values, actions) => {
+                  login(values)
                 actions.resetForm()
                 actions.setSubmitting()
           }}
