@@ -119,7 +119,7 @@ const Login = () => {
                 
              
               <Box sx={{ textAlign: "center", mt: 2 }}>
-                <Link to="/register">Do you have not an account?</Link>
+                <Link to="/login">Do you have not an account?</Link>
               </Box>
             </Grid>
     
