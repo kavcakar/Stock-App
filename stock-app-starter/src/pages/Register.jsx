@@ -1,3 +1,4 @@
+
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -5,7 +6,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import { Formik } from "formik";
 import image from "../assets/result.svg";
 import Grid from "@mui/material/Grid";
-import RegisterForm, { registerSchema } from "./RegisterForm";
+import  RegisterForm,  {registerSchema}  from "../components/RegisterForm";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -62,7 +63,7 @@ const Register = () => {
             }}
             validationSchema={registerSchema}
             onSubmit={(values, actions) => {
-              register({ ...values, password: values.password });
+              register({ ...values, password2: values.password });
               actions.resetForm();
               actions.setSubmitting(false);
             }}
@@ -84,3 +85,4 @@ const Register = () => {
 };
 
 export default Register;
+
