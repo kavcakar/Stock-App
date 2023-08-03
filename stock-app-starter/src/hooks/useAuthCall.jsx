@@ -34,7 +34,7 @@ const useAuthCall = () => {
     }
   }
 
-  const logout = async () => {
+  const logout = async (userInfo) => {
     dispatch(fetchStart())
     try {
       await axios.post(`${BASE_URL}account/auth/logout/`)
