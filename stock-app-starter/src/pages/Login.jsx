@@ -1,34 +1,22 @@
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import LockIcon from "@mui/icons-material/Lock";
-import image from "../assets/result.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Formik, Form } from 'formik';
-import  TextField  from "@mui/material/TextField";
-import { object, string } from 'yup';
-import LoadingButton from '@mui/lab/LoadingButton';
-import  useAuthCall  from "../hooks/useAuthCall";
-
+import Avatar from "@mui/material/Avatar"
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Typography from "@mui/material/Typography"
+import LockIcon from "@mui/icons-material/Lock"
+import image from "../assets/result.svg"
+import { Link, useNavigate } from "react-router-dom"
+import { Formik } from "formik"
+import useAuthCall from "../hooks/useAuthCall"
+import LoginForm, { loginScheme } from "../components/LoginForm"
+import { useSelector } from "react-redux"
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { currentUser, error, loading } = useSelector((state) => state?.auth);
-   const { login } = useAuthCall()
-  const loginScheme = object({
-    
-    email: string().email() .required(),
-    password: string().required()
-    // .max("password en fazla 20 karakter olmali")
-    // .matches(/\d+/, "Password bir sayi icermelidir"),
-    // .matches(/[a-z]/, "Password bir kucuk harf icermelidir"),
-    .matches(/[A-Z]/, "Password bir buyuk harf icermelidir"),
-    
-  });
-  
+  const navigate = useNavigate()
+  const {currentUser, error } = useSelector((state) => state.auth)
+  const { login } = useAuthCall()
+ 
+  const loginScheme = {}
   return (
     <Container maxWidth="lg">
       <Grid
@@ -65,75 +53,32 @@ const Login = () => {
           >
             Login
           </Typography>
-           
-             
-              <Formik
-                initialValues={{ email: "", password: "" }}
-                validationSchema={loginScheme}
-                onSubmit={(values, actions) => {
-                  login(values)
-                actions.resetForm()
-                actions.setSubmitting()
-          }}
-          >
-          {({values, handleChange, handleBlur, errors, touched}) => (
-            <Form>
-              <Box sx={{display:"flex", flexDirection: "column", gap: 2}}>
-              <TextField 
-                label="email"
-                name="email"
-                id="email"
-                type="email"
-                variant="outlined"
-                value={values.email || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-                
-              />
-              
-              
-              <TextField 
-                label="password"
-                name="password"
-                id="password"
-                type="password"
-                variant="outlined"
-                value={values?.password || ""}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-                
-              />
 
-              <LoadingButton 
-              type="submit" 
-              variant="contained" 
-              loading={loading}>Submit</LoadingButton>
-              </Box>
-            </Form>
-  )}
-          </Formik>
-                
-             
-              <Box sx={{ textAlign: "center", mt: 2 }}>
-                <Link to="/login">Do you have not an account?</Link>
-              </Box>
-            </Grid>
-    
-            <Grid item xs={10} sm={7} md={6}>
-              <Container>
-                <img src={image} alt="img" />
-              </Container>
-            </Grid>
-          </Grid>
-        </Container>
-      );
-    };
-    
-    export default Login;
-            
-          
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={loginScheme}
+            onSubmit={(values, actions) => {
+              login(values)
+              actions.resetForm()
+              actions.setSubmitting(false)
+            }}
+            component={(props) => <LoginForm {...props} />}
+          ></Formik>
+
+          <Box sx={{ textAlign: "center", mt: 2 }}>
+            <Link to="/register">Do you have not an account?</Link>
+          </Box>
+        </Grid>
+
+        <Grid item xs={10} sm={7} md={6}>
+          <Container>
+            <img src={image} alt="img" />
+          </Container>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}
+
+export default Login
 
