@@ -6,17 +6,29 @@ import Typography from "@mui/material/Typography"
 import LockIcon from "@mui/icons-material/Lock"
 import image from "../assets/result.svg"
 import { Link, useNavigate } from "react-router-dom"
-import { Formik } from "formik"
+import { Formik, Form } from "formik"
 import useAuthCall from "../hooks/useAuthCall"
 import LoginForm, { loginScheme } from "../components/LoginForm"
 import { useSelector } from "react-redux"
+import  TextField  from "@mui/material/TextField"
+import { object, string, number, date, InferType } from 'yup';
 
 const Login = () => {
   const navigate = useNavigate()
   const {currentUser, error } = useSelector((state) => state.auth)
+  const loginScheme = object({
+   
+  
+    email: string().email().required(),
+    password: string().required().min(8)
+    .max(20)
+    .matches(/[A-Z]/)
+    .matches(/[a-z]/)
+    
+  });
   const { login } = useAuthCall()
  
-  const loginScheme = {}
+  
   return (
     <Container maxWidth="lg">
       <Grid
@@ -61,9 +73,55 @@ const Login = () => {
               login(values)
               actions.resetForm()
               actions.setSubmitting(false)
+              
             }}
             component={(props) => <LoginForm {...props} />}
-          ></Formik>
+          >
+          {({values,
+             handleChange,
+             handleBlur,
+             errors,
+             touched
+
+          }) => (
+            <Form>
+            <Box sx={{display: "flex" , flexDirection: "column"}}>
+            <TextField
+            label="Email"
+            name="email"
+            id="email"
+            type="email"
+            variant="outlined"
+            value={values?.email || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email && errors.email }
+            
+            
+            
+            />
+            
+            <TextField
+            label="Password"
+            name="password"
+            id="password"
+            type="password"
+            variant="outlined"
+            value={values?.password || ""}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password && Boolean(errors.password)}
+            helperText={touched.password && errors.password }
+            
+            
+            
+            
+            />
+            </Box>
+            </Form>
+  )}
+          </Formik>
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/register">Do you have not an account?</Link>
