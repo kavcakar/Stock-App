@@ -15,7 +15,7 @@ import { object, string, number, date, InferType } from 'yup';
 
 const Login = () => {
   const navigate = useNavigate()
-  const {currentUser, error } = useSelector((state) => state.auth)
+  const {currentUser, error } = useSelector((state) => state?.auth)
   const loginScheme = object({
    
   
