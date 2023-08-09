@@ -11,11 +11,12 @@ import useAuthCall from "../hooks/useAuthCall"
 import LoginForm, { loginScheme } from "../components/LoginForm"
 import { useSelector } from "react-redux"
 import  TextField  from "@mui/material/TextField"
-import { object, string, number, date, InferType } from 'yup';
+import { object, string} from 'yup';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const Login = () => {
   const navigate = useNavigate()
-  const {currentUser, error } = useSelector((state) => state?.auth)
+  const {currentUser, error, loading } = useSelector((state) => state?.auth)
   const loginScheme = object({
    
   
@@ -75,7 +76,7 @@ const Login = () => {
               actions.setSubmitting(false)
               
             }}
-            component={(props) => <LoginForm {...props} />}
+            // component={(props) => <LoginForm {...props} />}
           >
           {({values,
              handleChange,
@@ -118,6 +119,9 @@ const Login = () => {
             
             
             />
+            <LoadingButton type="submit" variant="contained" loading={loading}>
+            Submit
+            </LoadingButton>
             </Box>
             </Form>
   )}
