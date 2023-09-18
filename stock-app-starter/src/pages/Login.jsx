@@ -14,9 +14,12 @@ import  TextField  from "@mui/material/TextField"
 import { object, string} from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 
+
 const Login = () => {
   const navigate = useNavigate()
   const {currentUser, error, loading } = useSelector((state) => state?.auth)
+
+  const { login } = useAuthCall()
   const loginScheme = object({
    
   
@@ -27,7 +30,7 @@ const Login = () => {
     .matches(/[a-z]/)
     
   });
-  const { login } = useAuthCall()
+  
  
   
   return (
@@ -102,23 +105,19 @@ const Login = () => {
             
             
             />
-            
             <TextField
-            label="Password"
+            label="password"
             name="password"
             id="password"
             type="password"
             variant="outlined"
-            value={values?.password || ""}
+            value={values.password}
             onChange={handleChange}
             onBlur={handleBlur}
+            helperText={touched.password && errors.password}
             error={touched.password && Boolean(errors.password)}
-            helperText={touched.password && errors.password }
-            
-            
-            
-            
-            />
+          />
+          
             <LoadingButton type="submit" variant="contained" loading={loading}>
             Submit
             </LoadingButton>
